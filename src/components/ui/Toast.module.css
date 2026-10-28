@@ -18,6 +18,14 @@
   font-weight: 500;
   background: var(--color-text);
   color: #ffffff;
+  transition:
+    opacity 300ms var(--ease-out),
+    transform 300ms var(--ease-out);
+
+  @starting-style {
+    opacity: 0;
+    transform: translateY(100%);
+  }
 }
 
 .success {

@@ -11,7 +11,15 @@
   line-height: 24px;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.15s ease;
+  transition:
+    transform var(--duration-press) var(--ease-out),
+    background-color var(--duration-fast) ease,
+    border-color var(--duration-fast) ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.button:active:not(:disabled) {
+  transform: scale(0.97);
 }
 
 .fullWidth {
@@ -23,9 +31,6 @@
   background: var(--color-primary);
   color: var(--color-text);
 }
-.primary:hover {
-  background: #a3d36e;
-}
 .primary:active {
   background: var(--color-primary-light);
 }
@@ -35,17 +40,11 @@
   color: var(--color-text);
   border-color: var(--color-border);
 }
-.secondary:hover {
-  background: var(--color-background);
-}
 
 .tertiary {
   background: transparent;
   color: var(--color-primary-dark);
   padding-inline: var(--space-1);
-}
-.tertiary:hover {
-  text-decoration: underline;
 }
 
 .danger {
@@ -53,13 +52,26 @@
   color: #b91c1c;
   border-color: var(--color-error);
 }
-.danger:hover {
-  background: #fef2f2;
-}
 
 .button:disabled {
   background: var(--color-disabled-bg);
   color: var(--color-disabled-text);
   border-color: transparent;
   cursor: not-allowed;
+}
+
+/* Hover only on devices with a real pointer; touch would make it stick. */
+@media (hover: hover) and (pointer: fine) {
+  .primary:hover:not(:disabled) {
+    background: #a3d36e;
+  }
+  .secondary:hover:not(:disabled) {
+    background: var(--color-background);
+  }
+  .tertiary:hover:not(:disabled) {
+    text-decoration: underline;
+  }
+  .danger:hover:not(:disabled) {
+    background: #fef2f2;
+  }
 }

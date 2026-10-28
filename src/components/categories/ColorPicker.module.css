@@ -42,6 +42,13 @@
   border-radius: 50%;
   color: #ffffff;
   border: 3px solid transparent;
+  transition:
+    transform var(--duration-press) var(--ease-out),
+    box-shadow var(--duration-fast) ease;
+}
+
+.input:active + .swatch {
+  transform: scale(0.92);
 }
 
 .input:checked + .swatch {

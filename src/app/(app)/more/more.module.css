@@ -44,8 +44,19 @@
   border-radius: var(--radius);
 }
 
-.link:hover {
+.link {
+  transition: background-color var(--duration-fast) ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.link:active {
   background: var(--color-background);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .link:hover {
+    background: var(--color-background);
+  }
 }
 
 .label {

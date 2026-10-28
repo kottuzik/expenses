@@ -46,6 +46,11 @@
   color: var(--color-text);
   box-shadow: 0 6px 16px rgba(46, 125, 50, 0.3);
   cursor: pointer;
+  transition:
+    transform var(--duration-press) var(--ease-out),
+    background-color var(--duration-fast) ease,
+    color var(--duration-fast) ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
 @media (min-width: 1024px) {
@@ -60,4 +65,8 @@
   .fab {
     display: none;
   }
+}
+
+.fab:active:not(:disabled) {
+  transform: scale(0.95);
 }

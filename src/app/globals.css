@@ -38,6 +38,13 @@
   --shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   --touch-target: 44px;
 
+  /* Motion: strong custom curves, short durations */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --duration-press: 160ms;
+  --duration-fast: 150ms;
+  --duration-enter: 200ms;
+
   --sidebar-width: 240px;
   --bottom-nav-height: 64px;
 }
@@ -132,4 +139,14 @@ textarea {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* Reduced motion: keep fades, drop movement and scaling. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-property: opacity, background-color, border-color, color, box-shadow !important;
+    scroll-behavior: auto !important;
+  }
 }

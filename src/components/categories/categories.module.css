@@ -77,11 +77,11 @@
   background: transparent;
   color: var(--color-text-secondary);
   cursor: pointer;
-}
-
-.iconButton:hover:not(:disabled) {
-  background: var(--color-background);
-  color: var(--color-text);
+  transition:
+    transform var(--duration-press) var(--ease-out),
+    background-color var(--duration-fast) ease,
+    color var(--duration-fast) ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .iconButton:disabled {
@@ -98,4 +98,15 @@
   background: var(--color-surface);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
+}
+
+.iconButton:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .iconButton:hover:not(:disabled) {
+    background: var(--color-background);
+    color: var(--color-text);
+  }
 }

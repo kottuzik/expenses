@@ -42,6 +42,16 @@
   text-decoration: none;
   font-size: 12px;
   line-height: 16px;
+  transition: color var(--duration-fast) ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.bottomLink svg {
+  transition: transform var(--duration-press) var(--ease-out);
+}
+
+.bottomLink:active svg {
+  transform: scale(0.9);
 }
 
 .bottomLink.active {
@@ -110,10 +120,13 @@
   border-radius: var(--radius);
   color: var(--color-text);
   text-decoration: none;
+  transition: background-color var(--duration-fast) ease;
 }
 
-a.sideLink:hover {
-  background: var(--color-background);
+@media (hover: hover) and (pointer: fine) {
+  a.sideLink:hover:not(.active) {
+    background: var(--color-background);
+  }
 }
 
 .sideLink.active {
