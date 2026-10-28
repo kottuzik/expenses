@@ -1,0 +1,11 @@
+.banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 12px var(--space-2);
+  margin-bottom: var(--space-2);
+  border-radius: var(--radius);
+  background: #fef3c7;
+  color: #78350f;
+  font-weight: 500;
+}

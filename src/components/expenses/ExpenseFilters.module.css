@@ -1,0 +1,32 @@
+.filters {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  align-items: end;
+  padding: var(--space-2);
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.dates {
+  display: contents;
+}
+
+.clear {
+  grid-column: 1 / -1;
+  justify-self: start;
+}
+
+/* Desktop: all filters on one row above the list. */
+@media (min-width: 1024px) {
+  .filters {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) auto;
+  }
+
+  .clear {
+    grid-column: auto;
+    align-self: end;
+    min-height: 48px;
+  }
+}

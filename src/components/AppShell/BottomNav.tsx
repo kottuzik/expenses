@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { MAIN_NAV, isActive } from "./nav-items";
+import { MAIN_NAV, isMainActive } from "./nav-items";
 import styles from "./AppShell.module.css";
 
 // Mobile/tablet navigation: fixed bar with the four main destinations.
@@ -13,7 +13,7 @@ export function BottomNav() {
     <nav className={styles.bottomNav} aria-label="ניווט ראשי">
       <ul className={styles.bottomList}>
         {MAIN_NAV.map(({ label, icon: Icon, href }) => {
-          const active = href ? isActive(href, pathname) : false;
+          const active = href ? isMainActive(href, pathname) : false;
           return (
             <li key={label}>
               <Link

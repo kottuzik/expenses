@@ -27,7 +27,7 @@ export const MAIN_NAV: NavItem[] = [
 ];
 
 export const DATA_NAV: NavItem[] = [
-  { label: "קטגוריות", icon: Tag },
+  { label: "קטגוריות", icon: Tag, href: "/categories" },
   { label: "השוואת תקופות", icon: ChartColumn },
   { label: "ייבוא מקובץ CSV", icon: Upload },
   { label: "סל מחזור", icon: Trash2 },
@@ -41,4 +41,10 @@ export const ACCESS_NAV: NavItem[] = [
 
 export function isActive(href: string, pathname: string): boolean {
   return href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
+}
+
+// On mobile, destinations reached from "More" keep "More" highlighted in the bottom bar.
+export function isMainActive(href: string, pathname: string): boolean {
+  if (isActive(href, pathname)) return true;
+  return href === "/more" && [...DATA_NAV, ...ACCESS_NAV].some((item) => item.href && isActive(item.href, pathname));
 }

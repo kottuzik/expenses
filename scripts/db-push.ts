@@ -10,7 +10,8 @@ if (!dbUrl) {
 }
 
 const extraArgs = process.argv.slice(2); // e.g. --dry-run
-const result = spawnSync("npx", ["supabase", "db", "push", "--db-url", dbUrl, ...extraArgs], {
+// Runs the local CLI binary directly: npx may echo the full command line, including the DB password.
+const result = spawnSync("node_modules/.bin/supabase", ["db", "push", "--db-url", dbUrl, ...extraArgs], {
   stdio: "inherit",
 });
 process.exit(result.status ?? 1);

@@ -1,5 +1,10 @@
-import { ComingSoon } from "@/components/ui/ComingSoon";
+import { Suspense } from "react";
+import { ExpensesScreen } from "./ExpensesScreen";
 
 export default function ExpensesPage() {
-  return <ComingSoon title="הוצאות" />;
+  return (
+    <Suspense>
+      <ExpensesScreen />
+    </Suspense>
+  );
 }

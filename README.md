@@ -17,8 +17,8 @@
 | פקודה | מה היא בודקת |
 |---|---|
 | `npm test` | לוגיקה ורכיבי מסך, בלי רשת |
-| `npm run test:integration` | הרשאות (RLS), חסימת הרשמה, בדיקת Session ו-30 יום, מול Development |
+| `npm run test:integration` | הרשאות (RLS), חסימת הרשמה, בדיקת Session ו-30 יום, אילוצי מסד הנתונים (בטרנזקציה שמתבטלת), רשימת הוצאות, סינון, מיון ודפדוף – מול Development |
 | `npm run test:e2e` | תרחישי דפדפן במחשב ובטלפון (מפעיל את השרת לבד; בהרצה ראשונה צריך גם `npx playwright install chromium`) |
-| `npm run test:reset` | מוחק נתוני בדיקה מ-Development |
+| `npm run test:reset` | מוחק נתוני בדיקה מ-Development (קטגוריות והוצאות שמתחילות ב-`__test__`) |
 
-בדיקות לעולם לא רצות מול Production. הסקריפטים מסרבים לרוץ כש-`SUPABASE_ENV` אינו `development`.
+נתוני בדיקה מסומנים בתחילית `__test__` ונמחקים בסוף כל בדיקה. בדיקות לעולם לא רצות מול Production. הסקריפטים מסרבים לרוץ כש-`SUPABASE_ENV` אינו `development`.

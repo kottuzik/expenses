@@ -1,0 +1,145 @@
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* ---------- Mobile: each row is a two-line list item ---------- */
+.table,
+.table tbody {
+  display: block;
+}
+
+.head {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-areas:
+    "title  amount actions"
+    "meta   amount actions";
+  align-items: center;
+  column-gap: var(--space-1);
+  padding: 10px var(--space-2);
+  cursor: pointer;
+}
+
+.row + .row {
+  border-top: 1px solid var(--color-border);
+}
+
+.row:hover {
+  background: var(--color-background);
+}
+
+.row td {
+  padding: 0;
+}
+
+.title {
+  grid-area: title;
+  min-width: 0;
+}
+
+.open {
+  max-width: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  text-align: start;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.category {
+  grid-area: meta;
+  justify-self: start;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+}
+
+/* The date sits under the title, after the category on the same line. */
+.date {
+  grid-area: meta;
+  justify-self: end;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+}
+
+.amount {
+  grid-area: amount;
+  font-size: 16px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.actions {
+  grid-area: actions;
+}
+
+/* ---------- Desktop: a regular table ---------- */
+@media (min-width: 1024px) {
+  .table {
+    display: table;
+  }
+
+  .table tbody {
+    display: table-row-group;
+  }
+
+  .head {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+    display: table-header-group;
+  }
+
+  .head th {
+    padding: 12px var(--space-2);
+    text-align: start;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .row {
+    display: table-row;
+  }
+
+  .row td {
+    padding: 12px var(--space-2);
+    vertical-align: middle;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .category,
+  .date {
+    font-size: 14px;
+    color: var(--color-text);
+  }
+
+  .open {
+    font-size: 14px;
+    max-width: 360px;
+  }
+
+  .actions {
+    width: 60px;
+  }
+}
