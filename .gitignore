@@ -80,3 +80,9 @@ desktop.ini
 tmp/
 temp/
 *.tmp
+
+# Playwright local auth state
+playwright/.auth/
+
+# Next.js generated types
+next-env.d.ts

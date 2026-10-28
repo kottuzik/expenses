@@ -232,3 +232,35 @@ Vercel – Next.js Route Handlers (Node.js)
 12. GitHub Environments בתוכנית Free – https://docs.github.com/en/actions/reference/workflows-and-actions/deployments-and-environments
 
 המקורות תומכים ביכולות השירותים ובמכסותיהם במועד הבדיקה. תכנון Session מותאם, Realtime, Snapshot ושחזור הוא **החלטה ארכיטקטונית לפרויקט** ולא יכולת מובנית שהספקים מבטיחים; יש לאמת אותה בבדיקות אינטגרציה לפני שימוש בנתונים אמיתיים.
+
+## החלטות מרכזיות (ADRs)
+
+### ADR-1: Cache Components של Next.js כבוי
+**הקשר:** Next.js 16 מפעיל כברירת מחדל `cacheComponents` (ו-`partialPrefetching`). כל מסכי האפליקציה פרטיים ותלויים ב-Session.
+**החלטה:** התצורה כבויה, ודפי האזור המוגן מסומנים `dynamic = "force-dynamic"`.
+**השלכות:** כל דף מוגן מרונדר בכל בקשה, ואף דף פרטי לא נשמר מראש. הקוד פשוט יותר, ואין צורך בגבולות Suspense סביב קריאת ה-Session. ההשפעה על הביצועים זניחה בהיקף ביתי.
+
+### ADR-2: בדיקת `auth.sessions` דרך פונקציית DB פרטית
+**הקשר:** סכמת `auth` אינה חשופה דרך ה-API של Supabase, ובזמן ריצה אין חיבור Postgres ישיר.
+**החלטה:** הפונקציה `public.session_created_at(uuid)` מוגדרת כ-`SECURITY DEFINER`. הרשאת ההרצה שלה ניתנת ל-`service_role` בלבד, והשרת קורא לה עם ה-Secret key. הבדיקה רצה ב-`proxy.ts` לכל דף, בכל Route Handler מוגן, ושוב ב-Layout המוגן.
+**השלכות:** כל בקשה מוגנת כוללת קריאת RPC אחת. Session שבוטל, או שגילו מעל 30 יום לפי `now()`, נדחה ומבוצעת עבורו התנתקות.
+
+### ADR-3: RLS לפי "משתמש מאומת"
+**הקשר:** יש משתמש Auth יחיד, וה-Signup חסום. ה-UID שונה בין Dev ל-Prod, ולכן אין לקודד אותו בתוך Migration.
+**החלטה:** ה-Policies מתירות גישה ל-`authenticated`. טבלאות שרת (`app_state`, `login_attempts`) נשארות ללא Policies, ורק ה-Secret key ניגש אליהן.
+**השלכות:** בפועל זה שקול ל-`auth.uid()` של המשתמש המשפחתי. אם בעתיד יתווסף משתמש Auth נוסף, צריך להחמיר את ה-Policies.
+
+### ADR-4: `DATABASE_URL` משמש רק להרצת Migrations מול Development
+**הקשר:** הרצת Migrations בדרך של `supabase login` ואחריו `link` דורשת מהמשתמש צעדים נוספים.
+**החלטה:** הפקודה `npm run db:push` מריצה `supabase db push --db-url "$DATABASE_URL"`, ומסרבת לרוץ כש-`SUPABASE_ENV` אינו `development`. האפליקציה עצמה אינה משתמשת ב-`DATABASE_URL`.
+**השלכות:** סיסמת ה-DB של Development נשמרת ב-`.env` המקומי, שאינו נכנס ל-Git. ל-Production יש נוהל נפרד (סעיף 8.1).
+
+### ADR-5: Rate limiting לפי IP מגובב, ו-`lucide-react` לאייקונים
+**הקשר:** צריך לחסום ניסיונות כניסה חוזרים, וצריך סט אייקונים אחיד בסגנון קווי מתאר.
+**החלטה:** חסימה ל-15 דקות אחרי 5 כישלונות מאותו IP, כשה-IP נשמר כ-SHA-256. רשומות מעל 24 שעות נמחקות בעת רישום כישלון חדש, עד שיהיה Cron. האייקונים נלקחים מ-`lucide-react`.
+**השלכות:** ההגבלות המובנות של Supabase Auth ממשיכות לחול בנוסף. ה-Cookies של Supabase אינם `HttpOnly`, כי ב-Milestone 4 הדפדפן יזדקק ל-Session עבור Realtime. ההגנה נשענת על `SameSite=Lax`, על בדיקת Origin ועל `Secure` ב-Production.
+
+### ADR-6: חשיפת סכמת `public` ב-Data API
+**הקשר:** בפרויקט Supabase חדש ה-Data API מוגדר ללא סכמות חשופות (`pg_pgrst_no_exposed_schemas`), ולכן כל קריאה ל-REST/RPC נכשלת ב-503 (`PGRST002`).
+**החלטה:** בכל סביבה מגדירים ב-**Integrations ← Data API** את **Exposed schemas** = `public` בלבד. ההגנה על הנתונים נשענת על RLS ועל הרשאות שמוגדרות ב-Migrations.
+**השלכות:** זה צעד תצורה ידני שאינו נכלל ב-Migrations, ויש להוסיף אותו ל-Checklist של הקמת Production (Milestone 8).

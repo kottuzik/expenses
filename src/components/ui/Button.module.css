@@ -1,0 +1,65 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  min-height: var(--touch-target);
+  padding: 10px var(--space-3);
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+/* Dark text on Primary keeps WCAG AA contrast (DESIGN.md 2.1). */
+.primary {
+  background: var(--color-primary);
+  color: var(--color-text);
+}
+.primary:hover {
+  background: #a3d36e;
+}
+.primary:active {
+  background: var(--color-primary-light);
+}
+
+.secondary {
+  background: var(--color-surface);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+.secondary:hover {
+  background: var(--color-background);
+}
+
+.tertiary {
+  background: transparent;
+  color: var(--color-primary-dark);
+  padding-inline: var(--space-1);
+}
+.tertiary:hover {
+  text-decoration: underline;
+}
+
+.danger {
+  background: var(--color-surface);
+  color: #b91c1c;
+  border-color: var(--color-error);
+}
+.danger:hover {
+  background: #fef2f2;
+}
+
+.button:disabled {
+  background: var(--color-disabled-bg);
+  color: var(--color-disabled-text);
+  border-color: transparent;
+  cursor: not-allowed;
+}

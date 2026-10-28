@@ -1,0 +1,136 @@
+.shell {
+  min-height: 100dvh;
+}
+
+.content {
+  padding: var(--space-3) var(--space-2) calc(var(--bottom-nav-height) + var(--space-3));
+}
+
+.inner {
+  width: 100%;
+  max-width: 720px;
+  margin-inline: auto;
+}
+
+/* ---------- Bottom navigation (up to 1023px) ---------- */
+.bottomNav {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 10;
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.bottomList {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bottomLink {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: var(--bottom-nav-height);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.bottomLink.active {
+  color: var(--color-primary-dark);
+  font-weight: 600;
+}
+
+/* ---------- Side navigation (1024px and up) ---------- */
+.sideNav {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .bottomNav {
+    display: none;
+  }
+
+  .sideNav {
+    position: fixed;
+    inset-block: 0;
+    right: 0;
+    width: var(--sidebar-width);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-2);
+    background: var(--color-surface);
+    border-left: 1px solid var(--color-border);
+    overflow-y: auto;
+  }
+
+  .content {
+    margin-right: var(--sidebar-width);
+    padding: var(--space-4);
+  }
+
+  .inner {
+    max-width: 1200px;
+  }
+}
+
+.sideBrand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-inline: var(--space-1);
+  margin-bottom: var(--space-1);
+}
+
+.sideList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 0 0 var(--space-2);
+  list-style: none;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.sideLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: var(--touch-target);
+  padding-inline: 12px;
+  border-radius: var(--radius);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+a.sideLink:hover {
+  background: var(--color-background);
+}
+
+.sideLink.active {
+  background: var(--color-primary-light);
+  color: var(--color-primary-dark);
+  font-weight: 600;
+}
+
+.sideLabel {
+  flex: 1;
+}
+
+.disabled {
+  color: var(--color-text-secondary);
+  cursor: default;
+}
+
+.sideFooter {
+  margin-top: auto;
+}
